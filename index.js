@@ -9,6 +9,7 @@ require("dotenv").config();
 const app = express();
 const port = 3000;
 
+app.use(express.static("public"));
 app.use(express.json());
 app.use(cookieParser());
 app.use("/auth", authRouter);

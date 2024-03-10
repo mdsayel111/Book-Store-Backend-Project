@@ -4,6 +4,7 @@ const router = require("./src/routers/authRouter");
 const { client } = require("./src/DB");
 const taskRouter = require("./src/routers/taskRouter");
 const authRouter = require("./src/routers/authRouter");
+const { redisClient } = require("./src/utils/redis");
 require("dotenv").config();
 
 const app = express();
@@ -22,4 +23,5 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
   client.connect();
+  redisClient.connect();
 });

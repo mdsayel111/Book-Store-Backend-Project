@@ -4,6 +4,7 @@ var fs = require("fs");
 const { verifyUser } = require("../utils/auth");
 const multer = require("multer");
 const { getPdfUrl } = require("../utils");
+const { redisClient } = require("../utils/redis");
 const taskRouter = require("express").Router();
 
 // multer storage
@@ -61,10 +62,18 @@ taskRouter.get("/", async (req, res) => {
       );
       return res.send({ data: rows });
     }
-    const { rows } = await client.query("SELECT * FROM books");
-    console.log(rows);
-    res.send({ data: rows });
+    console.log(await redisClient.get("allBooks"));
+    let allData = null;
+    if (await redisClient.get("allBooks")) {
+      allData = JSON.parse(await redisClient.get("allBooks"));
+    } else {
+      const { rows } = await client.query("SELECT * FROM books");
+      allData = rows;
+      redisClient.set("allBooks", JSON.stringify(rows), { EX: 300 });
+    }
+    res.send({ data: allData });
   } catch (error) {
+    console.log(error.message);
     res.status(500).send({ message: "Internal server error" });
   }
 });

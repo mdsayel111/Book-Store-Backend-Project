@@ -62,7 +62,6 @@ taskRouter.get("/", async (req, res) => {
       );
       return res.send({ data: rows });
     }
-    console.log(await redisClient.get("allBooks"));
     let allData = null;
     if (await redisClient.get("allBooks")) {
       allData = JSON.parse(await redisClient.get("allBooks"));
@@ -123,7 +122,6 @@ taskRouter.patch("/", upload.single("pdfFile"), async (req, res) => {
     }
     return res.status(401).send({ message: "Unathorize" });
   } catch (error) {
-    console.log(error.message);
     res.status(500).send({ message: "Internal server error" });
   }
 });

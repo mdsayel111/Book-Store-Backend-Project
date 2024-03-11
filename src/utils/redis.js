@@ -1,10 +1,11 @@
 const { createClient } = require("redis");
 const redisClient = createClient({
-  password: "WSywvtVVdSW8gJNvqndF3gpBwWLjJww6",
-  socket: {
-    host: "redis-10965.c274.us-east-1-3.ec2.cloud.redislabs.com",
-    port: 10965,
-  },
-})
+  url: "rediss://default:AVNS__ltY2_LuBc5kiUjtdwa@redis-df7f372-mdsayel111-4ff0.a.aivencloud.com:22071",
+});
+
+// const Redis = require("ioredis");
+// const redisUri =
+//   "rediss://default:AVNS__ltY2_LuBc5kiUjtdwa@redis-df7f372-mdsayel111-4ff0.a.aivencloud.com:22071";
+// const redisClient = new Redis(redisUri);
 
 module.exports = { redisClient };

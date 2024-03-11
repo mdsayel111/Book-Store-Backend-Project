@@ -15,14 +15,12 @@ authRouter.post("/signup", async (req, res) => {
     }
     res.status(401).send({ message: "unathorize" });
   } catch (error) {
-    console.log(error.message);
     res.status(500).send({ message: "internal server error" });
   }
 });
 
 authRouter.post("/signin", async (req, res) => {
   try {
-    console.log("signin");
     const { email, password } = req.body;
     if (email && password) {
       const result = await client.query(
@@ -34,7 +32,6 @@ authRouter.post("/signin", async (req, res) => {
         email === userInfoFromDB.email &&
         password === userInfoFromDB.password
       ) {
-        console.log(process.env.SECRET_KEY);
         const token = jwt.sign({ email }, process.env.SECRET_KEY, {
           expiresIn: "1d",
         });
@@ -45,7 +42,6 @@ authRouter.post("/signin", async (req, res) => {
     }
     res.status(401).send({ message: "unathorize" });
   } catch (error) {
-    console.log(error.message);
     res.status(500).send({ message: "internal server error" });
   }
 });
